@@ -7,6 +7,6 @@ import com.hty.service.TimerLauncher;
 public class Demo1 {
     public static void main(String[] args) {
         Timer timer = new TimerLauncher();
-        timer.add(new TimerTask("(这是一个定时任务)",10000));
+        timer.add(new TimerTask("(这是一个定时任务)",2000));
     }
 }

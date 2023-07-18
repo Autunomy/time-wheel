@@ -38,7 +38,7 @@ public class TimerLauncher implements Timer {
     public TimerLauncher() {
         //创建时间轮链的头，每一格是1ms 格子数量为20，也就是一圈是20ms,当前指针指向的时间就是当前的系统时间 delayQueue就是延时队列
         this.timeWheel = new TimeWheel(1, 20, System.currentTimeMillis(), delayQueue);
-        //任务执行线程池创建
+        //任务执行线程池创建 TODO:将核心线程数可配置
         this.workerThreadPool = Executors.newFixedThreadPool(100);
         //用来推动时间轮运转的线程池
         this.bossThreadPool = Executors.newFixedThreadPool(1);
