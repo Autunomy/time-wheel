@@ -17,7 +17,7 @@ public class TimerTask implements Runnable {
      */
     private TimerTaskEntry timerTaskEntry;
 
-    //这部分就是真实任务部分
+    //这部分就是真实任务信息
     private String desc;
 
     public TimerTask(String desc, long delayMs) {
@@ -40,7 +40,7 @@ public class TimerTask implements Runnable {
         timerTaskEntry = entry;
     }
 
-    //任务执行部分
+    //任务具体执行部分
     @Override
     public void run() {
         log.info("============={}任务执行", desc);

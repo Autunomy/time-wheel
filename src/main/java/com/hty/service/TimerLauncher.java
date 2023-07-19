@@ -1,11 +1,14 @@
 package com.hty.service;
 
+import com.hty.config.ThreadPoolConfig;
 import com.hty.eneity.TimeWheel;
 import com.hty.eneity.TimerTaskEntry;
 import com.hty.eneity.TimerTaskList;
 import com.hty.eneity.TimerTask;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ExecutorService;
@@ -15,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 //定时器的具体实现
 @Data
 @Slf4j
+@Service
 public class TimerLauncher implements Timer {
 
     /**
@@ -33,13 +37,15 @@ public class TimerLauncher implements Timer {
      * 轮询delayQueue获取过期任务线程
      */
     private ExecutorService bossThreadPool;
+    @Autowired
+    private ThreadPoolConfig threadPoolConfig;
 
 
     public TimerLauncher() {
         //创建时间轮链的头，每一格是1ms 格子数量为20，也就是一圈是20ms,当前指针指向的时间就是当前的系统时间 delayQueue就是延时队列
         this.timeWheel = new TimeWheel(1, 20, System.currentTimeMillis(), delayQueue);
-        //任务执行线程池创建 TODO:将核心线程数可配置
-        this.workerThreadPool = Executors.newFixedThreadPool(100);
+        //任务执行线程池创建 核心数由配置文件配置
+        this.workerThreadPool = Executors.newFixedThreadPool(threadPoolConfig.getCoreNum());
         //用来推动时间轮运转的线程池
         this.bossThreadPool = Executors.newFixedThreadPool(1);
         // 以1ms为单位时间推动一次时间轮
