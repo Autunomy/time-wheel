@@ -37,11 +37,12 @@ public class TimerLauncher implements Timer {
      * 轮询delayQueue获取过期任务线程
      */
     private ExecutorService bossThreadPool;
-    @Autowired
+    //构造方法注入
     private ThreadPoolConfig threadPoolConfig;
 
 
-    public TimerLauncher() {
+    public TimerLauncher(ThreadPoolConfig threadPoolConfig) {
+        this.threadPoolConfig = threadPoolConfig;
         //创建时间轮链的头，每一格是1ms 格子数量为20，也就是一圈是20ms,当前指针指向的时间就是当前的系统时间 delayQueue就是延时队列
         this.timeWheel = new TimeWheel(1, 20, System.currentTimeMillis(), delayQueue);
         //任务执行线程池创建 核心数由配置文件配置
