@@ -1,11 +1,13 @@
 package com.hty.eneity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 //真正的任务
 @Data
 @Slf4j
+@NoArgsConstructor
 public class TimerTask implements Runnable {
 
     /**
@@ -19,6 +21,8 @@ public class TimerTask implements Runnable {
 
     //这部分就是真实任务信息
     private String desc;
+
+    private String uid;
 
     public TimerTask(String desc, long delayMs) {
         this.desc = desc;

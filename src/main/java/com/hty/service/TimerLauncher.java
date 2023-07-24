@@ -1,6 +1,6 @@
 package com.hty.service;
 
-import com.hty.config.ThreadPoolConfig;
+import com.hty.config.TimerWheelConfig;
 import com.hty.eneity.TimeWheel;
 import com.hty.eneity.TimerTaskEntry;
 import com.hty.eneity.TimerTaskList;
@@ -38,15 +38,15 @@ public class TimerLauncher implements Timer {
      */
     private ExecutorService bossThreadPool;
     //构造方法注入
-    private ThreadPoolConfig threadPoolConfig;
+    private TimerWheelConfig timerWheelConfig;
 
 
-    public TimerLauncher(ThreadPoolConfig threadPoolConfig) {
-        this.threadPoolConfig = threadPoolConfig;
+    public TimerLauncher(TimerWheelConfig timerWheelConfig) {
+        this.timerWheelConfig = timerWheelConfig;
         //创建时间轮链的头，每一格是1ms 格子数量为20，也就是一圈是20ms,当前指针指向的时间就是当前的系统时间 delayQueue就是延时队列
         this.timeWheel = new TimeWheel(1, 20, System.currentTimeMillis(), delayQueue);
         //任务执行线程池创建 核心数由配置文件配置
-        this.workerThreadPool = Executors.newFixedThreadPool(threadPoolConfig.getCoreNum());
+        this.workerThreadPool = Executors.newFixedThreadPool(timerWheelConfig.getCoreNum());
         //用来推动时间轮运转的线程池
         this.bossThreadPool = Executors.newFixedThreadPool(1);
         // 以1ms为单位时间推动一次时间轮

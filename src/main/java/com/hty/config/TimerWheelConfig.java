@@ -1,15 +1,11 @@
 package com.hty.config;
 
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 
 @Configuration
-public class ThreadPoolConfig {
+public class TimerWheelConfig {
     @Value("${time-wheel.threadPool.corePoolSizeAuto}")
     public Boolean corePoolSizeAuto;
 
@@ -24,7 +20,6 @@ public class ThreadPoolConfig {
         if (corePoolSizeAuto){
             return Runtime.getRuntime().availableProcessors() + 1;
         }
-
         return corePoolSize > 0 ? corePoolSize : 1;
     }
 }
